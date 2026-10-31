@@ -1,0 +1,25 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "chabako",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-08-01",
+  "compatibility_flags": ["nodejs_compat"],
+  // Cloudflare Access が境界認証を担うため、Access の外にある workers.dev とプレビュー URL は閉じる
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [{ "pattern": "chabako.chanu.co", "custom_domain": true }],
+  "observability": { "enabled": true },
+  "vars": {
+    "ADMIN_ORIGIN": "https://chabako.chanu.co"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "chabako",
+      "database_id": "fcacf5fd-3228-421e-8a9c-2cea41f7c540",
+      "migrations_dir": "migrations"
+    }
+  ],
+  // 90 日で消えるライフサイクルルールをバケットに付けてある
+  "r2_buckets": [{ "binding": "RAW", "bucket_name": "chabako-raw" }]
+}
